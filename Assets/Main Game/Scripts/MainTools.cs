@@ -200,10 +200,15 @@ public static class MainTools
     { return new Vector3(vector.x, vector.y, Z); }
 
     /// <summary>
-    /// Returns a >= (b - difference) || a <= (b + difference);
+    /// Returns a >= (b - difference) || a <= (b + difference)
     /// </summary>
     public static bool Approximately(float a, float b, float difference)
     {
         return a >= (b - difference) || a <= (b + difference);
+    }
+
+    public static float Min(float min,float value)
+    {
+        return value < min ? min : value;
     }
 }

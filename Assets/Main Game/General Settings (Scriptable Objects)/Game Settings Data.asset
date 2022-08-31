@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e325d5bf1eacc4bacdb5eb32dce506, type: 3}
   m_Name: Game Settings Data
   m_EditorClassIdentifier: 
-  RoadWeight: 10
+  RoadWeight: 30
+  SpaceShipMaxTranslateHeight: 30

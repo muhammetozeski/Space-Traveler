@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Meteorite Settings Data
   m_EditorClassIdentifier: 
   _AngularVelocity: 1
-  _MeteoriteSizeMultiplier: 0.48
+  _MeteoriteSizeMultiplier: 0.92

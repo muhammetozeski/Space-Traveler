@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayingInputController : MonoBehaviour
 {
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private SpaceShipSettings spaceShipSettings;
     [SerializeField] private GameSettings gameSettings;
+    [SerializeField] private Rigidbody rb;
 
     [Tooltip("Input Action Map Name")]
     string PlayerMapName = "Player";
@@ -17,8 +19,6 @@ public class PlayingInputController : MonoBehaviour
 
     Vector2 MousePosition;
 
-    [SerializeField] private Vector2 lerpedRotation = new Vector2();
-
     [SerializeField] private RectTransform MouseTarget;
     [SerializeField] private RectTransform ShipsTarget;
     [SerializeField] private RectTransform Rope;
@@ -27,7 +27,6 @@ public class PlayingInputController : MonoBehaviour
     Vector2 ShipRotatation = new Vector2();
     void Awake()
     {
-
         #region Assigns
         Move = playerInput.actions.FindAction(PlayerMapName + "/" + PmMove);
         Look = playerInput.actions.FindAction(PlayerMapName + "/" + PmLook);
@@ -42,10 +41,18 @@ public class PlayingInputController : MonoBehaviour
         #endregion
 
         ShipPosition = Vector2.zero;
+
+        //null checking:
+        if(rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+
+        rb.maxDepenetrationVelocity = 30;
     }
 
     //debug purpose:
-    [EButton] void activateMoving() { move = !move; }
+    [EButton] void TestButton() { }
     [Tooltip("Debug purpose")]
     [SerializeField] private bool move = false;
     [Tooltip("Debug purpose")]
@@ -55,11 +62,16 @@ public class PlayingInputController : MonoBehaviour
     private void Update()
     {
         MousePosition = Look.ReadValue<Vector2>() * spaceShipSettings.MouseSpeedMultiplier;
-        RotateShip(MouseTarget.anchoredPosition / spaceShipSettings.TargetClamp);
         RotateTargets(MousePosition);
+        RotateShip(MouseTarget.anchoredPosition / spaceShipSettings.TargetClamp);
+
         if (move) //test purpose
-            TransformShip(MouseTarget.anchoredPosition / spaceShipSettings.TargetClamp);
-        if (Input.GetKeyDown(KeyCode.Space)) activateMoving(); //test purpose
+            MoveShip2d(MouseTarget.anchoredPosition / spaceShipSettings.TargetClamp);
+
+        ClampShipPosition();
+
+
+        MoveShip3d(Move.ReadValue<Vector2>());
     }
     private void RotateShip(Vector2 rotateDir)
     {
@@ -100,33 +112,38 @@ public class PlayingInputController : MonoBehaviour
     /// Moves the player's ship
     /// </summary>
     /// <param name="dir">Direction</param>
-    private void TransformShip(Vector2 dir)
+    private void MoveShip2d(Vector2 dir)
     {
-        if (dir.magnitude < spaceShipSettings.TargetDeadZone) return;
-
-        ShipPosition += dir * spaceShipSettings.Speed;
-        ShipPosition.x = Mathf.Clamp(ShipPosition.x,
-            -gameSettings.RoadWeight, gameSettings.RoadWeight);
-        ShipPosition.y = Mathf.Clamp(ShipPosition.y,
-            -gameSettings.SpaceShipMaxTranslateHeight, gameSettings.RoadWeight);
-
-        transform.position = new Vector3(ShipPosition.x, ShipPosition.y,
-            transform.forward.z * moveSpeed * Time.deltaTime);
+        //apply max speed
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, spaceShipSettings.Max2DSpeed);
+        rb.AddForce(dir * spaceShipSettings.Speed2d);
+    }
+    private void MoveShip3d(Vector2 dir)
+    {
+        rb.AddForce(Vector3.forward * dir.y * spaceShipSettings.SpeedForward);
+        Vector3 velocity = rb.velocity;
+        //apply max speed
+        velocity.z = Mathf.Clamp(velocity.z, 0, spaceShipSettings.Max3DSpeed);
+        rb.velocity = velocity;
     }
 
+    public void OnMove(InputAction.CallbackContext obj)
+    {
+        print("unity event");
+    }
     private void MoveOnCanceled(InputAction.CallbackContext obj)
     {
-
+        print("on canceled");
     }
 
     private void MoveOnPerformed(InputAction.CallbackContext obj)
     {
-
+        print("on performed");
     }
 
     private void MoveOnStarted(InputAction.CallbackContext obj)
     {
-
+        print("on started");
     }
 
     // are these really necessary? idk
@@ -135,6 +152,14 @@ public class PlayingInputController : MonoBehaviour
     private void OnDisable()
     { PlayerMap.Disable(); }
 
-
+    private void ClampShipPosition()
+    {
+        Vector3 shipPosition = transform.position;
+        shipPosition.x = Mathf.Clamp(shipPosition.x,
+            -gameSettings.RoadWeight, gameSettings.RoadWeight);
+        shipPosition.y = Mathf.Clamp(shipPosition.y,
+            -gameSettings.SpaceShipMaxTranslateHeight, gameSettings.SpaceShipMaxTranslateHeight);
+        transform.position = shipPosition;
+    }
 
 }

@@ -9,10 +9,25 @@ public class SpaceShipSettings : ScriptableObject
 {
     [Header("Ship Speed Settings")]
 
-    [Tooltip("Moving Speed of Player's ship")]
-    [SerializeField] private float _Speed;
-    public float Speed { get { return _Speed; } private set { _Speed = value; } }
+    [Tooltip("Moving Speed of Player's ship for \"forward\" and \"back\"")]
+    [SerializeField] private float _SpeedForward;
+    public float SpeedForward { get { return _SpeedForward; } private set { _SpeedForward = value; } }
 
+    [Tooltip("Moving Speed of Player's ship for \"up\" - \"down\" and \"right\" - \"left\"")]
+    [SerializeField] private float _Speed2d;
+    public float Speed2d { get { return _Speed2d; } private set { _Speed2d = value; } }
+
+    [Tooltip("Maximum speed of Player's ship for up-down and left-right")]
+    [Min(1)]
+    [SerializeField] private float _Max2DSpeed;
+    public float Max2DSpeed { get { return _Max2DSpeed; } private set { _Max2DSpeed = MainTools.Min(1, value); } }
+
+    [Tooltip("Maximum speed of Player's ship for forward-back")]
+    [Min(1)]
+    [SerializeField] private float _Max3DSpeed;
+    public float Max3DSpeed { get { return _Max3DSpeed; } private set { _Max3DSpeed = MainTools.Min(1, value); } }
+
+    ////////////////////////////////////////////////////////////////////////////////////////
     [Header("Ship Rotation Settings")]
 
     [Tooltip("Z axis speed of rotation of Player's ship")]
@@ -30,6 +45,8 @@ public class SpaceShipSettings : ScriptableObject
     [SerializeField] private float _RotationClamp = 10f;
     public float RotationClamp {get{ return _RotationClamp; } private set { _RotationClamp = value; } }
     
+    
+    ////////////////////////////////////////////////////////////////////////////////////////
     [Header("Target Speed Settings")]
 
     [Tooltip("Speed of The Target icon that is on the canvas, it effects angular speed of the player's ship")]

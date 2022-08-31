@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2160.4854, g: 2264.5469, b: 3287.5586, a: 1}
+  m_IndirectSpecularColor: {r: 262.38354, g: 325.1084, b: 430.30957, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -443,6 +443,18 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
+--- !u!114 &311703605 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5004704358698560319, guid: eda77dcf869691340b6ba6bbb53169a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2933244092642684170}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84312586767ca2048b8e31811ce0fa60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &432432459
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +471,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &432432460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1195,7 +1207,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 311703605}
+        m_TargetAssemblyTypeName: PlayingInputController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2d0dc5ce-5bdd-4c64-8048-9a1900121134
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
@@ -1423,7 +1447,7 @@ MonoBehaviour:
   theDistance: 0
   extraDestination: 100
   ThemeManager: {fileID: 1034606034}
-  player: {fileID: 777671435}
+  player: {fileID: 1768974}
   endOfRoad: 0
   isBehindIt: 0
   "_theObjeThatIsInTheLocat\u0131onOfPlayer": []
@@ -2388,7 +2412,7 @@ PrefabInstance:
     - target: {fileID: 5004704358698560319, guid: eda77dcf869691340b6ba6bbb53169a6,
         type: 3}
       propertyPath: move
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5004704358698560319, guid: eda77dcf869691340b6ba6bbb53169a6,
         type: 3}
@@ -2433,6 +2457,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 102900000, guid: 87d21b7917a52bc45ad904ee701dc4cf,
         type: 3}
+    - target: {fileID: 5412649509944996461, guid: eda77dcf869691340b6ba6bbb53169a6,
+        type: 3}
+      propertyPath: m_Drag
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5412649509944996461, guid: eda77dcf869691340b6ba6bbb53169a6,
         type: 3}
       propertyPath: m_UseGravity
