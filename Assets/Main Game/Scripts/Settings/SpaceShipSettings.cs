@@ -16,15 +16,15 @@ public class SpaceShipSettings : ScriptableObject
     [Header("Ship Rotation Settings")]
 
     [Tooltip("Z axis speed of rotation of Player's ship")]
-    [SerializeField] private float _ShipZAxisAngularSpeed;
-    public float ShipZAxisAngularSpeed { get { return _ShipZAxisAngularSpeed; } private set { _ShipZAxisAngularSpeed = value; } }
+    [SerializeField] private float _ShipZAxisRotationClamp;
+    public float ShipZAxisRotationClamp { get { return _ShipZAxisRotationClamp; } private set { _ShipZAxisRotationClamp = value; } }
 
     [Tooltip("X axis speed of rotation of Player's ship")]
-    [SerializeField] private float _ShipXAxisAngularSpeed;
-    public float ShipXAxisAngularSpeed { get { return _ShipXAxisAngularSpeed; } private set { _ShipXAxisAngularSpeed = value; } }
+    [SerializeField] private float _ShipXAxisRotationClamp;
+    public float ShipXAxisRotationClamp { get { return _ShipXAxisRotationClamp; } private set { _ShipXAxisRotationClamp = value; } }
 
-    [Tooltip("Lerping Speed of Player's ship")]
-    public float ShipRotationLerpSpeedMultiplier = 1f;
+    [Tooltip("Angular Lerping Speed of Player's ship")]
+    public float ShipAngularSpeed = 1f;
     
     [Tooltip("Rotation clamp of Player's ship")]
     [SerializeField] private float _RotationClamp = 10f;

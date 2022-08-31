@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.HighDefinition;
-using UnityEngine.UIElements;
 
 public class PlayingInputController : MonoBehaviour
 {
@@ -22,7 +17,7 @@ public class PlayingInputController : MonoBehaviour
 
     Vector2 MousePosition;
 
-    [SerializeField] private  Vector2 lerpedRotation = new Vector2();
+    [SerializeField] private Vector2 lerpedRotation = new Vector2();
 
     [SerializeField] private RectTransform MouseTarget;
     [SerializeField] private RectTransform ShipsTarget;
@@ -32,7 +27,7 @@ public class PlayingInputController : MonoBehaviour
     Vector2 ShipRotatation = new Vector2();
     void Awake()
     {
-      
+
         #region Assigns
         Move = playerInput.actions.FindAction(PlayerMapName + "/" + PmMove);
         Look = playerInput.actions.FindAction(PlayerMapName + "/" + PmLook);
@@ -45,14 +40,14 @@ public class PlayingInputController : MonoBehaviour
         Move.performed += MoveOnPerformed;
         Move.canceled += MoveOnCanceled;
         #endregion
-        
+
         ShipPosition = Vector2.zero;
     }
 
     //debug purpose:
-    [EButton] void activateMoving() { move = !move; object a = 5; a.GetType(); }
+    [EButton] void activateMoving() { move = !move; }
     [Tooltip("Debug purpose")]
-    [SerializeField]  private  bool move = false;
+    [SerializeField] private bool move = false;
     [Tooltip("Debug purpose")]
     [SerializeField] private float moveSpeed = 10;
     [Tooltip("Debug purpose")] public bool useXAxisOnRotate = false;
@@ -64,22 +59,20 @@ public class PlayingInputController : MonoBehaviour
         RotateTargets(MousePosition);
         if (move) //test purpose
             TransformShip(MouseTarget.anchoredPosition / spaceShipSettings.TargetClamp);
-        if(Input.GetKeyDown(KeyCode.Space)) activateMoving(); //test purpose
+        if (Input.GetKeyDown(KeyCode.Space)) activateMoving(); //test purpose
     }
     private void RotateShip(Vector2 rotateDir)
     {
-        if (rotateDir.magnitude < spaceShipSettings.TargetDeadZone) return;
+        if (rotateDir.magnitude < spaceShipSettings.TargetDeadZone) rotateDir = Vector2.zero;
 
-        rotateDir *= spaceShipSettings.ShipZAxisAngularSpeed;
-        ShipRotatation.x = Mathf.Clamp(-rotateDir.y, -spaceShipSettings.RotationClamp, spaceShipSettings.RotationClamp);
-        ShipRotatation.y = Mathf.Clamp(-rotateDir.x, -spaceShipSettings.RotationClamp, spaceShipSettings.RotationClamp);
-
+        rotateDir.x *= -spaceShipSettings.ShipZAxisRotationClamp;
+        rotateDir.y *= -spaceShipSettings.ShipXAxisRotationClamp;
         if (!useXAxisOnRotate) ShipRotatation.x = 0;
 
         transform.rotation = Quaternion.Lerp(
             transform.rotation,
-            Quaternion.Euler(MainTools.Vector2To3OnFlat(ShipRotatation)),
-            spaceShipSettings.ShipRotationLerpSpeedMultiplier * Time.deltaTime
+            Quaternion.Euler(new Vector3(rotateDir.y,0,rotateDir.x)),
+            spaceShipSettings.ShipAngularSpeed * Time.deltaTime
             );
     }
 
@@ -117,7 +110,7 @@ public class PlayingInputController : MonoBehaviour
         ShipPosition.y = Mathf.Clamp(ShipPosition.y,
             -gameSettings.SpaceShipMaxTranslateHeight, gameSettings.RoadWeight);
 
-        transform.position = new Vector3(ShipPosition.x,ShipPosition.y, 
+        transform.position = new Vector3(ShipPosition.x, ShipPosition.y,
             transform.forward.z * moveSpeed * Time.deltaTime);
     }
 
@@ -142,6 +135,6 @@ public class PlayingInputController : MonoBehaviour
     private void OnDisable()
     { PlayerMap.Disable(); }
 
-    
+
 
 }
