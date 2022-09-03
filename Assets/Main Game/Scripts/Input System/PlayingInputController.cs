@@ -76,10 +76,13 @@ public class PlayingInputController : MonoBehaviour
     private void RotateShip(Vector2 rotateDir)
     {
         if (rotateDir.magnitude < spaceShipSettings.TargetDeadZone) rotateDir = Vector2.zero;
+        else
+        rotateDir += Vector2.one * spaceShipSettings.TargetDeadZone * 100; // for smoother animation, take out the dead zone
 
         rotateDir.x *= -spaceShipSettings.ShipZAxisRotationClamp;
         rotateDir.y *= -spaceShipSettings.ShipXAxisRotationClamp;
-        if (!useXAxisOnRotate) ShipRotatation.x = 0;
+
+        if (!useXAxisOnRotate) ShipRotatation.x = 0; // debug purpose
 
         transform.rotation = Quaternion.Lerp(
             transform.rotation,
@@ -114,12 +117,16 @@ public class PlayingInputController : MonoBehaviour
     /// <param name="dir">Direction</param>
     private void MoveShip2d(Vector2 dir)
     {
-        //apply max speed
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, spaceShipSettings.Max2DSpeed);
+        Vector3 velocity = rb.velocity;
+        //apply max speed:
+        velocity = MainTools.Vector2to3( Vector2.ClampMagnitude( velocity, spaceShipSettings.Max2DSpeed), velocity.z);
+        rb.velocity = velocity;
         rb.AddForce(dir * spaceShipSettings.Speed2d);
     }
     private void MoveShip3d(Vector2 dir)
     {
+        //if (dir.magnitude == 0f) return;
+
         rb.AddForce(Vector3.forward * dir.y * spaceShipSettings.SpeedForward);
         Vector3 velocity = rb.velocity;
         //apply max speed
@@ -155,10 +162,13 @@ public class PlayingInputController : MonoBehaviour
     private void ClampShipPosition()
     {
         Vector3 shipPosition = transform.position;
+
         shipPosition.x = Mathf.Clamp(shipPosition.x,
             -gameSettings.RoadWeight, gameSettings.RoadWeight);
+
         shipPosition.y = Mathf.Clamp(shipPosition.y,
             -gameSettings.SpaceShipMaxTranslateHeight, gameSettings.SpaceShipMaxTranslateHeight);
+
         transform.position = shipPosition;
     }
 

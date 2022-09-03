@@ -200,7 +200,7 @@ public static class MainTools
     { return new Vector3(vector.x, vector.y, Z); }
 
     /// <summary>
-    /// Returns a >= (b - difference) || a <= (b + difference)
+    /// Returns if a is bigger or equal to (b - difference) || if a is smaller or equal to (b + difference);
     /// </summary>
     public static bool Approximately(float a, float b, float difference)
     {
@@ -210,5 +210,10 @@ public static class MainTools
     public static float Min(float min,float value)
     {
         return value < min ? min : value;
+    }
+
+    public static Vector3 Vector2to3(Vector2 vector2, float z = 0)
+    {
+        return new Vector3(vector2.x, vector2.y, z);
     }
 }

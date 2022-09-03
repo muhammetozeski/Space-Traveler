@@ -61,7 +61,7 @@ public class SpaceShipSettings : ScriptableObject
     [SerializeField] private float _TargetIconLerper = 10f;
     public float TargetIconLerper { get { return _TargetIconLerper; } private set { _TargetIconLerper = value < 2 ? 2 : value; } }
 
-    
+    [Tooltip("Target icon don't affect ship rotation if its scale smaller than TargetDeadZone. \nTargetDeadZone * 100 = real magnitude scale. for example if you make TargetDeadZone = 0,5 target icon don't affect untill it comes to (0,50) or (50,0) etc")]
     [SerializeField] private float _TargetDeadZone = 10f;
     public float TargetDeadZone { get { return _TargetDeadZone; } private set { _TargetDeadZone = value; } }
 

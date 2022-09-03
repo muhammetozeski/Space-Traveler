@@ -14,7 +14,7 @@ public class MAIN_TRANSPORTER_SCRIPT : MonoBehaviour
     public float teleportPosition = 2000;
 
     /// <summary>
-    ///  i wanna add every object that in scene to this list below
+    ///  i wanna add every object that in scene to this list
     /// </summary>
     public List<GameObject> allStuffs = new List<GameObject>();
 
@@ -43,7 +43,7 @@ public class MAIN_TRANSPORTER_SCRIPT : MonoBehaviour
                     stuff.GetComponent<Transform>().position.y, stuff.GetComponent<Transform>().position.z - teleportPosition);
             }
 
-            //end of road naturally must change.
+            //end of road must change.
             Maker.endOfRoad -= teleportPosition;
         }
 

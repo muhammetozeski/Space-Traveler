@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1dd43de7b8b69144810b27acac233b3, type: 3}
   m_Name: Space Ship Settings Data
   m_EditorClassIdentifier: 
-  _SpeedForward: 5000
-  _Speed2d: 500
+  _SpeedForward: 25
+  _Speed2d: 50
   _Max2DSpeed: 500
-  _Max3DSpeed: 1e+16
+  _Max3DSpeed: 300
   _ShipZAxisRotationClamp: 25
-  _ShipXAxisRotationClamp: 10
+  _ShipXAxisRotationClamp: 15
   ShipAngularSpeed: 2
   _RotationClamp: 0
   ShipRotationMultiplier: 0.4
   _TargetClamp: 100
   _TargetIconLerper: 2
-  _TargetDeadZone: 0.2
+  _TargetDeadZone: 0.5
   MouseSpeedMultiplier: 1

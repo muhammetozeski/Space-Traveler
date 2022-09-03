@@ -20,7 +20,12 @@ public class MeteoriteAreaCreator : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Border.size = MainTools.V3SetX(Border.size, gameSettings.RoadWeight);
+        Vector3 borderSize = Border.size;
+        MainTools.V3SetX(ref borderSize, gameSettings.RoadWeight * 2);
+        MainTools.V3SetY(ref borderSize, gameSettings.SpaceShipMaxTranslateHeight * 2);
+        Border.size = borderSize;
+        //TODO: set border size z with a serialized variable
+
         ratios = new int[Meteorite.Length];
         for (int i = 0; i < Meteorite.Length; i++)
         {

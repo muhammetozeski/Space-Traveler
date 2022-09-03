@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
+/// <summary>
+/// this script for test purpose. TS means "test scripts". don't try so much to understand these codes :)
+/// </summary>
 public class TS_Testing : MonoBehaviour
 {
     [SerializeField] GameObject g;
     [SerializeField] Vector3 vector;
     KeyCode keys = KeyCode.A;
+    const int a = 21;
+    const string asd = "asddas";
+    [Tooltip(asd)]
+    int adsa;
 
-[EButton]
+    [EButton]
     void testME()
     {
         print(Random.value);
@@ -30,6 +37,15 @@ public class TS_Testing : MonoBehaviour
         [SerializeField] private float flyingSpeed;
         public override float FlyingSpeed { get => flyingSpeed; set => flyingSpeed = value; }
     }
+
+    static int idCounter = 0;
+    [SerializeField] private int id;
+
+    private void Awake()
+    {
+        id = ++idCounter;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
