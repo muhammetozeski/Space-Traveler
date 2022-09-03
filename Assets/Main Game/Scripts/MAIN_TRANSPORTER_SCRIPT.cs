@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MAIN_TRANSPORTER_SCRIPT : MonoBehaviour
+//TODO: this script is imported from my some old project and need some fixings for efficiency
+ public class MAIN_TRANSPORTER_SCRIPT : MonoBehaviour
 {
     /// <summary>
     /// this is allows us to use "maker.cs" varaibles or funcitons.

@@ -16,6 +16,6 @@ public class MeteoriteController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localScale = scale * meteoriteSettings.MeteoriteSizeMultiplier;
+        transform.localScale = scale * meteoriteSettings.MeteoriteSizeMultiplier; //test purpose
     }
 }
