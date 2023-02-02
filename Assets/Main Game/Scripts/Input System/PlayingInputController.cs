@@ -34,6 +34,7 @@ public class PlayingInputController : MonoBehaviour
         PlayerMap = playerInput.actions.FindActionMap(PlayerMapName);
         #endregion
 
+        //learning purpose:
         #region Assigns for "Move"
         Move.started += MoveOnStarted;
         Move.performed += MoveOnPerformed;
@@ -63,12 +64,12 @@ public class PlayingInputController : MonoBehaviour
     {
         MousePosition = Look.ReadValue<Vector2>() * spaceShipSettings.MouseSpeedMultiplier;
         RotateTargets(MousePosition);
-        RotateShip(MouseTarget.anchoredPosition / spaceShipSettings.TargetClamp);
+        RotateShip(MouseTarget.anchoredPosition);
 
         if (move) //test purpose
             MoveShip2d(MouseTarget.anchoredPosition / spaceShipSettings.TargetClamp);
 
-        ClampShipPosition();
+        //ClampShipPosition();
 
 
         MoveShip3d(Move.ReadValue<Vector2>());
@@ -76,8 +77,12 @@ public class PlayingInputController : MonoBehaviour
     private void RotateShip(Vector2 rotateDir)
     {
         if (rotateDir.magnitude < spaceShipSettings.TargetDeadZone) rotateDir = Vector2.zero;
-        else
-        rotateDir += Vector2.one * spaceShipSettings.TargetDeadZone * 100; // for smoother animation, take out the dead zone
+        
+        else // for smoother animation, take out the dead zone
+        {
+            rotateDir -= Vector2.ClampMagnitude(rotateDir, spaceShipSettings.TargetDeadZone * 100);
+        }
+        rotateDir /= spaceShipSettings.TargetClamp;
 
         rotateDir.x *= -spaceShipSettings.ShipZAxisRotationClamp;
         rotateDir.y *= -spaceShipSettings.ShipXAxisRotationClamp;
@@ -101,7 +106,7 @@ public class PlayingInputController : MonoBehaviour
             spaceShipSettings.ShipRotationMultiplier / l * 1;
 
         Vector2 pos = ancPos + rotateDir * _speed; /* (*Time.deltaTime) ???*/
-        //pos = Vector2.Lerp(pos, Vector2.ClampMagnitude(pos, 100), Time.deltaTime);
+
         pos = Vector2.ClampMagnitude(pos, spaceShipSettings.TargetClamp);
         MouseTarget.anchoredPosition = pos;
 
@@ -112,17 +117,31 @@ public class PlayingInputController : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves the player's ship
+    /// Moves the player's ship to left - right and up - down
     /// </summary>
-    /// <param name="dir">Direction</param>
     private void MoveShip2d(Vector2 dir)
     {
+        //TODO: don't move ship if the aim in "deadzone" circle
+
         Vector3 velocity = rb.velocity;
         //apply max speed:
         velocity = MainTools.Vector2to3( Vector2.ClampMagnitude( velocity, spaceShipSettings.Max2DSpeed), velocity.z);
+
+        //keep it in borders:
+        /*
+        Vector2 border = new Vector2(gameSettings.RoadWeight, gameSettings.SpaceShipMaxTranslateHeight);
+        if (!MainTools.IsPointInSquare((Vector2)transform.position, border, -border))
+            velocity = MainTools.Vector2to3(Vector2.zero,velocity.z);
+        /**/
+
         rb.velocity = velocity;
+
         rb.AddForce(dir * spaceShipSettings.Speed2d);
     }
+
+    /// <summary>
+    /// Moves the player's ship to front and back
+    /// </summary>
     private void MoveShip3d(Vector2 dir)
     {
         //if (dir.magnitude == 0f) return;

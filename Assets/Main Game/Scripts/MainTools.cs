@@ -216,4 +216,22 @@ public static class MainTools
     {
         return new Vector3(vector2.x, vector2.y, z);
     }
+
+    public static bool IsPointInSquare(Vector3 point, Vector3 borderUp, Vector3 borderDown)
+    {
+        return
+            point.x < borderUp.x && point.y < borderUp.y && point.z < borderUp.z
+            &&
+            point.x > borderDown.x && point.y > borderDown.y && point.z > borderDown.z
+            ;
+    }
+
+    public static bool IsPointInSquare(Vector2 point, Vector2 borderUp, Vector2 borderDown)
+    {
+        return
+            point.x < borderUp.x && point.y < borderUp.y
+            &&
+            point.x > borderDown.x && point.y > borderDown.y
+            ;
+    }
 }

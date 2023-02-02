@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-// maker maker chicken shaker
+
 [RequireComponent(typeof(MAIN_TRANSPORTER_SCRIPT))]
+
+// maker maker chicken shaker
 public class maker : MonoBehaviour
 {
     /// <summary>
@@ -25,13 +27,16 @@ public class maker : MonoBehaviour
     /// </summary>
     public Transform player;
 
-    bool areSignedImmediatelyObjectsSigned=false;
+    bool areThemeObjectsSigned=false;
 
     int previousThemeNo = -1;
-    int themeNo = 0;
+    int _themeNo = 0;
+    int themeNo { 
+        get { return _themeNo; }
+        set { if(value > 0) _themeNo = value; }
+    }
 
     int choosenObjectNumber=0;
-    bool isFirst = true;
 
     /// <summary>
     /// the z position of end of road
@@ -40,7 +45,7 @@ public class maker : MonoBehaviour
 
     [SerializeField] bool isBehindIt;
     bool isRunned = false;
-    [SerializeField] List<GameObject> _theObjeThatIsInTheLocatıonOfPlayer = new List<GameObject>();
+    [SerializeField] List<GameObject> _theObjectThatIsInTheLocatıonOfPlayer = new List<GameObject>();
     //the list that will be sorted. but must be eliminated
     [SerializeField] List<GameObject> _sortedList = new List<GameObject>();
 
@@ -56,11 +61,11 @@ public class maker : MonoBehaviour
             mAIN_TRANSPORTER_SCRIPT.allStuffs.Add(
             Instantiate(_choosenTwoObject, new Vector3(0, 0, 0 + endOfRoad+ lenght / 2 ), Quaternion.identity)
             );
-            //the reason of choicing of collider instead of scale is that sometimes devoloper can want start the object in a little back or more ahead
+            //the reason of choicing of collider instead of scale is that sometimes devoloper may want to start the object in a little back or more ahead
             endOfRoad += lenght;
         }
         signingImmediately();
-        _theObjeThatIsInTheLocatıonOfPlayer = theObjectListThatIsInTheLocatıonOfPlayer();
+        _theObjectThatIsInTheLocatıonOfPlayer = theObjectListThatIsInTheLocatıonOfPlayer();
     }
 
     void Update()
@@ -68,14 +73,11 @@ public class maker : MonoBehaviour
         if ( player.transform.position.z > theObjectThatIsInTheLocatıonOfPlayer(isBehindIt))
         {
             //making new objects:
-            //btw i am working to use different names on every varaible for not confusing with other varaibles. for example i cant use "i" because the choosenObject() has "i" in its for function
-            
             int _new_object_count = 0;
             //theDistance of player to endOfRoad must stay at about 4000
-            while (_new_object_count < ( theDistance < 4000 ?  _theObjeThatIsInTheLocatıonOfPlayer.Count()+1 : _theObjeThatIsInTheLocatıonOfPlayer.Count() - 1) )
+            while (_new_object_count < ( theDistance < 4000 ?  _theObjectThatIsInTheLocatıonOfPlayer.Count()+1 : _theObjectThatIsInTheLocatıonOfPlayer.Count() - 1) )
             {
             GameObject _choosenOneObject = choosenObject();
-
                 float lenght = _choosenOneObject.transform.GetComponent<BoxCollider>().size.z;
                 mAIN_TRANSPORTER_SCRIPT.allStuffs.Add(
                 Instantiate(_choosenOneObject, new Vector3(0, 0, endOfRoad + (lenght / 2)), Quaternion.identity)
@@ -84,12 +86,12 @@ public class maker : MonoBehaviour
                 _new_object_count++;
             }
             //destroying old objects:
-            foreach (GameObject _objectToBeExited in _theObjeThatIsInTheLocatıonOfPlayer)
+            foreach (GameObject _objectToBeExited in _theObjectThatIsInTheLocatıonOfPlayer)
             {
                 mAIN_TRANSPORTER_SCRIPT.rfl(_objectToBeExited);
                 Destroy(_objectToBeExited);
             }
-            _theObjeThatIsInTheLocatıonOfPlayer = theObjectListThatIsInTheLocatıonOfPlayer();
+            _theObjectThatIsInTheLocatıonOfPlayer = theObjectListThatIsInTheLocatıonOfPlayer();
 
             theDistance = endOfRoad - player.transform.position.z;
         }
@@ -97,61 +99,48 @@ public class maker : MonoBehaviour
 
     GameObject choosenObject()
     {
-        //ilk defa atama yapılıyorsa ilk obje olan normal road'tan atama yapılsın
-        if (isFirst)
+        int _choosen_ratio;
+        int _top_ratio = 0;
+        int _ratio_atm = 0;
+        int _lenght_of_list;
+        //definings of varaibles:
+        _lenght_of_list = ThemeManager.themeEngine[themeNo].PoolThemeObjects.Length;
+
+        for (int i = 0; i < _lenght_of_list; i++)
         {
-            if (choosenObjectNumber < 10)
-            {
-                choosenObjectNumber++;
-                if (choosenObjectNumber == 10) { isFirst = false; }
-                return ThemeManager.themeEngine[themeNo].themeObjectsList[themeNo];
-            }
+            _top_ratio += ThemeManager.themeEngine[themeNo].PoolThemeObjects[i].RatioOfObject;
         }
-        else
+        _choosen_ratio = Random.Range(0, _top_ratio);
+        for (int i = 0; i < _lenght_of_list; i++)
         {
-            int _choosen_ratio;
-            int _top_ratio = 0;
-            int _ratio_atm = 0;
-            int _lenght_of_list;
-            //definings of varaibles:
-            _lenght_of_list = ThemeManager.themeEngine[themeNo].ratioOfObjects.Length;
-
-            for (int i = 0; i < _lenght_of_list; i++)
+            if (_ratio_atm <= _choosen_ratio && _choosen_ratio < _ratio_atm + ThemeManager.themeEngine[themeNo].PoolThemeObjects[i].RatioOfObject)
             {
-                _top_ratio += ThemeManager.themeEngine[themeNo].ratioOfObjects[i];
+                return ThemeManager.themeEngine[themeNo].PoolThemeObjects[i].PoolingObject;
             }
-            _choosen_ratio = Random.Range(0, _top_ratio);
-            for (int i = 0; i < _lenght_of_list; i++)
-            {
-                if (_ratio_atm <= _choosen_ratio && _choosen_ratio < _ratio_atm + ThemeManager.themeEngine[themeNo].ratioOfObjects[i])
-                {
-                return ThemeManager.themeEngine[themeNo].themeObjectsList[i];
-                }
-                _ratio_atm += ThemeManager.themeEngine[themeNo].ratioOfObjects[i];
-            }
-
+            _ratio_atm += ThemeManager.themeEngine[themeNo].PoolThemeObjects[i].RatioOfObject;
         }
         return null;
     }
 
     void signingImmediately()
     {
-        if (!areSignedImmediatelyObjectsSigned)
+        if (!areThemeObjectsSigned)
         {
-            if (previousThemeNo != -1 && ThemeManager.themeEngine[previousThemeNo].signedImmediately.Count != 0)
+            if (previousThemeNo != -1 && ThemeManager.themeEngine[previousThemeNo].ThemeObjects.Length != 0)
             {
-                foreach (GameObject _to_be_exited in ThemeManager.themeEngine[previousThemeNo].signedImmediately)
+                for (int i = 0; i < ThemeManager.themeEngine[previousThemeNo].ThemeObjects.Length; i++)
                 {
-                    mAIN_TRANSPORTER_SCRIPT.rfl(_to_be_exited);
-                    Destroy(_to_be_exited);
+                    GameObject _to_be_deleted = ThemeManager.themeEngine[previousThemeNo].ThemeObjects[i].ThemeObject;
+                    mAIN_TRANSPORTER_SCRIPT.rfl(_to_be_deleted);
+                    Destroy(_to_be_deleted);
                 }
             }
-            for (int i = 0; i < ThemeManager.themeEngine[themeNo].signedImmediately.Count; i++)
+            for (int i = 0; i < ThemeManager.themeEngine[themeNo].ThemeObjects.Length; i++)
             {
-                mAIN_TRANSPORTER_SCRIPT.allStuffs.Add(ThemeManager.themeEngine[themeNo].signedImmediately[i]);
-                Instantiate(ThemeManager.themeEngine[themeNo].signedImmediately[i], ThemeManager.themeEngine[themeNo].signedImmediatelyLocations[i], Quaternion.identity);
+                mAIN_TRANSPORTER_SCRIPT.allStuffs.Add(ThemeManager.themeEngine[themeNo].ThemeObjects[i].ThemeObject);
+                Instantiate(ThemeManager.themeEngine[themeNo].ThemeObjects[i].ThemeObject, ThemeManager.themeEngine[themeNo].ThemeObjects[i].ThemeObjectLocations, Quaternion.identity);
             }
-            areSignedImmediatelyObjectsSigned = true;
+            areThemeObjectsSigned = true;
         }
     }
 
@@ -166,9 +155,10 @@ public class maker : MonoBehaviour
         {
             //sim = signed immediately objects
             bool _is_stuff_in_sim = false;
-            if(ThemeManager.themeEngine[themeNo].signedImmediately != null)
-                foreach (GameObject _SIM in ThemeManager.themeEngine[themeNo].signedImmediately)
+            if(ThemeManager.themeEngine[themeNo].ThemeObjects != null)
+                for (int i = 0; i < ThemeManager.themeEngine[themeNo].ThemeObjects.Length; i++)
                 {
+                    GameObject _SIM = ThemeManager.themeEngine[themeNo].ThemeObjects[i].ThemeObject;
                     if (_stuff == _SIM)
                     {
                         _is_stuff_in_sim = true;
@@ -184,10 +174,6 @@ public class maker : MonoBehaviour
 
         //sorting
 
-/* değişiklikler:
- * for (int _a = 0; _a < i; _a++) -> for (int _a = 0; _a < i-1; _a++) çünkü i'inci obje playerin önündedir ama buna rağmen isBehindIt = true.
- * yukarıdaki değişikliği iptal ettim. bunu yapınca sorunlar çıktı.
- */
         _sortedList = _sortedList.OrderBy(o => o.transform.position.z).ToList();
         
         for(int i = 0; i < _sortedList.Count; i++)
@@ -216,18 +202,18 @@ public class maker : MonoBehaviour
     {
         if (_isbehindit)
         {
-            return _theObjeThatIsInTheLocatıonOfPlayer[_theObjeThatIsInTheLocatıonOfPlayer
+            return _theObjectThatIsInTheLocatıonOfPlayer[_theObjectThatIsInTheLocatıonOfPlayer
                 .Count - 1].transform.GetComponent<BoxCollider>().size.z 
-                + _theObjeThatIsInTheLocatıonOfPlayer[_theObjeThatIsInTheLocatıonOfPlayer
+                + _theObjectThatIsInTheLocatıonOfPlayer[_theObjectThatIsInTheLocatıonOfPlayer
                 .Count - 1].transform.position.z
                 + extraDestination
                 ;
         }
         else
         {
-            return _theObjeThatIsInTheLocatıonOfPlayer[0].transform.
+            return _theObjectThatIsInTheLocatıonOfPlayer[0].transform.
                 GetComponent<BoxCollider>().size.z
-                + _theObjeThatIsInTheLocatıonOfPlayer[0].transform.position.z
+                + _theObjectThatIsInTheLocatıonOfPlayer[0].transform.position.z
                 + extraDestination
                 ;
         }

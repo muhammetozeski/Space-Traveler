@@ -16,7 +16,7 @@ public class SpaceShipSettings : ScriptableObject
     [Tooltip("Moving Speed of Player's ship for \"up\" - \"down\" and \"right\" - \"left\"")]
     [SerializeField] private float _Speed2d;
     public float Speed2d { get { return _Speed2d; } private set { _Speed2d = value; } }
-
+    
     [Tooltip("Maximum speed of Player's ship for up-down and left-right")]
     [Min(1)]
     [SerializeField] private float _Max2DSpeed;
@@ -26,6 +26,7 @@ public class SpaceShipSettings : ScriptableObject
     [Min(1)]
     [SerializeField] private float _Max3DSpeed;
     public float Max3DSpeed { get { return _Max3DSpeed; } private set { _Max3DSpeed = MainTools.Min(1, value); } }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////
     [Header("Ship Rotation Settings")]

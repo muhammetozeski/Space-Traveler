@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Space Ship Settings Data
   m_EditorClassIdentifier: 
   _SpeedForward: 25
-  _Speed2d: 50
-  _Max2DSpeed: 500
-  _Max3DSpeed: 300
-  _ShipZAxisRotationClamp: 25
-  _ShipXAxisRotationClamp: 15
-  ShipAngularSpeed: 2
+  _Speed2d: 30
+  _Max2DSpeed: 70
+  _Max3DSpeed: 50
+  _ShipZAxisRotationClamp: 40
+  _ShipXAxisRotationClamp: 30
+  ShipAngularSpeed: 3
   _RotationClamp: 0
   ShipRotationMultiplier: 0.4
   _TargetClamp: 100
   _TargetIconLerper: 2
-  _TargetDeadZone: 0.5
+  _TargetDeadZone: 0.3
   MouseSpeedMultiplier: 1

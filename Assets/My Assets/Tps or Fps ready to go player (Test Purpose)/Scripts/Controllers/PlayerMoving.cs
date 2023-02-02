@@ -10,6 +10,7 @@ using UnityEngine;
         private Vector3 velocity;
         void Update()
         {
+        
             if (Input.GetButtonDown("Jump") && _characterController.isGrounded)
             {
                 velocity.y = Mathf.Sqrt(_settings.JumpHeight * -2f * _settings.Gravity);

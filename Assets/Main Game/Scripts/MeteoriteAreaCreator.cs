@@ -34,7 +34,7 @@ public class MeteoriteAreaCreator : MonoBehaviour
         for (int i = 0; i < Meteorite.Length; i++)
         {
             Meteorite[i].objPooling = new ObjectPoolingSystem();
-            Meteorite[i].objPooling.execudePoolingSystem(Meteorite[i].Meteorite, PoolCount);
+            Meteorite[i].objPooling.InitializePoolingSystem(Meteorite[i].Meteorite, PoolCount);
         }
         MeteoritesParent.gameObject.SetActive(false);
     }

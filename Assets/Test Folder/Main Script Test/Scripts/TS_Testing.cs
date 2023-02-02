@@ -16,10 +16,11 @@ public class TS_Testing : MonoBehaviour
     [Tooltip(asd)]
     int adsa;
 
+    [SerializeField] private Vector3 point, borderUp, borderDown;
     [EButton]
     void testME()
     {
-        print(Random.value);
+        print(MainTools.IsPointInSquare(point,borderUp,borderDown));
     }
     abstract class deneme3
     {
@@ -40,7 +41,6 @@ public class TS_Testing : MonoBehaviour
 
     static int idCounter = 0;
     [SerializeField] private int id;
-
     private void Awake()
     {
         id = ++idCounter;

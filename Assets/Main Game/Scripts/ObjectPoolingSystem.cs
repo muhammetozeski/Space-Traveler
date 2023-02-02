@@ -10,9 +10,9 @@ public class ObjectPoolingSystem : MonoBehaviour
     int poolCounter = 0;
     private void Start()
     {
-        execudePoolingSystem(ObjectsToBePooled, poolCount);
+        InitializePoolingSystem(ObjectsToBePooled, poolCount);
     }
-    public void execudePoolingSystem(GameObject[] ObjectsToBePooled, int poolCount, bool setActive = false)
+    public void InitializePoolingSystem(GameObject[] ObjectsToBePooled, int poolCount, bool setActive = false)
     {
         if (poolCount != 0)
         {
@@ -30,7 +30,7 @@ public class ObjectPoolingSystem : MonoBehaviour
             ObjectPoolList = null;
         }
     }
-    public void execudePoolingSystem(GameObject ObjectsToBePooled, int poolCount, bool setActive = false)
+    public void InitializePoolingSystem(GameObject ObjectsToBePooled, int poolCount, bool setActive = false)
     {
         if (poolCount != 0)
         {

@@ -6,29 +6,17 @@ using UnityEngine;
  public class MAIN_TRANSPORTER_SCRIPT : MonoBehaviour
 {
     /// <summary>
-    /// this is allows us to use "maker.cs" varaibles or funcitons.
-    /// </summary>
-    maker Maker;
-    /// <summary>
     ///  when the player came to teleportPosition in z axis, everything will go back teleportPosition in z axis.
     /// </summary>
     public float teleportPosition = 2000;
 
-    /// <summary>
-    ///  i wanna add every object that in scene to this list
-    /// </summary>
+    [Tooltip("Everything that is added to scene by this script")]
     public List<GameObject> allStuffs = new List<GameObject>();
 
-    /// <summary>
-    /// to know player's position in this way we can change the all stuffs position when the player came to teleportPosition.
-    /// </summary>
     public Transform player;
 
-    void Start()
-    {
-        //this is allows us to use "maker.cs" varaibles or funcitons.
-        Maker = (maker)FindObjectOfType(typeof(maker));
-    }
+    [SerializeField] private maker Maker;
+
     void Update()
     {
         // if player went N steps on z axis, retract everything N steps
@@ -37,11 +25,11 @@ using UnityEngine;
             //player goes back up to teleportPosition
             player.position = new Vector3(player.position.x, player.position.y, player.position.z - teleportPosition);
 
-            //allstuffs goes back up to teleportPosition
+            //allstuffs goes back to teleportPosition
             foreach (GameObject stuff in allStuffs)
             {
-                stuff.GetComponent<Transform>().position = new Vector3(stuff.GetComponent<Transform>().position.x,
-                    stuff.GetComponent<Transform>().position.y, stuff.GetComponent<Transform>().position.z - teleportPosition);
+                stuff.transform.position = new Vector3(stuff.transform.position.x,
+                    stuff.transform.position.y, stuff.transform.position.z - teleportPosition);
             }
 
             //end of road must change.

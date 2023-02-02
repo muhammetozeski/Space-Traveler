@@ -7,6 +7,8 @@ public class TS_Follow : MonoBehaviour
     [SerializeField] private Transform Object;
     [SerializeField] private Transform target;
     Vector3 distance;
+
+    [SerializeField] private bool FollowOnlyZAxis;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,9 @@ public class TS_Follow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Object.position = distance + target.position;
+        if (FollowOnlyZAxis)
+            Object.position = MainTools.V3SetZ(Object.position, (distance + target.position).z);
+        else
+            Object.position = distance + target.position;
     }
 }

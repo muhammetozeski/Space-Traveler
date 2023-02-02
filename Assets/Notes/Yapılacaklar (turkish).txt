@@ -1,0 +1,16 @@
+theme manager'i düzenle sadeleþtir
+maker.cs'de cpu verimliliðini arttýr object pooling kullanarak yeniden düzenle
+Main transporter'i yeniden düzenle ve sadeleþtir
+
+"meteroit way"i tamamen iptal edip object poolingi direkt olarak maker.cs'ten yap
+
+	Küçük þeyler;
+		Road manager yerine daha kapsayýcý bir isim bul. çünkü o bütün temayý deðiþtirecek
+
+
+game manager oluþturup Cube borders'larý "Game settings data"ya göre baþlangýçta boyutunu ayarla
+
+object pooling ile bir ýþýn silahý sistemi oluþtur;
+		çýkan ýþýnýn içinde IAmmo interface sýnýfýndan türeyen MainAmmo sýnýfý bulunsun
+		bu Damagable layerinde bulunan birþeyle çarpýþýrsa IDamagable interface sýnýfýndan türeyen MeteorManager sýnýfýndan TakeDamage fonksiyonunu çaðýrsýn
+		hasar alma iþlemi bu fonksiyonun içinde hesaplansýn. merminin içinde sadece vereceði hasar bulunsun ve çarpýþma denetimi yapýlsýn
