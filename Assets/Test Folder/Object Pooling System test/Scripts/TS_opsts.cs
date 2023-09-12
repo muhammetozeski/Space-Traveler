@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// test purpose
+/// </summary>
 public class TS_opsts : MonoBehaviour
 {
     [SerializeField] ObjectPoolingSystem poolingSystem;
     // Start is called before the first frame update
     void Start()
     {
-        //InvokeRepeating("poolTest", 0, 0.1f);
     }
 
     // Update is called once per frame

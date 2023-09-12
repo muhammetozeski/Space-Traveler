@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.38354, g: 325.1084, b: 430.30957, a: 1}
+  m_IndirectSpecularColor: {r: 2160.5479, g: 2264.5547, b: 3287.543, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -380,7 +380,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &432432460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1039,10 +1039,10 @@ MonoBehaviour:
   themeEngine:
   - themeTitle: Main Theme
     PoolThemeObjects:
-    - PoolingObject: {fileID: 8768170997939205874, guid: 8d7489e444bdcdf4e92bbb2af368a8c1,
+    - PoolingObject: {fileID: 7762079647144639312, guid: fffc4e874fcfa4c419b854f19fa2065d,
         type: 3}
       RatioOfObject: 50
-    - PoolingObject: {fileID: 4812742230491271545, guid: 4655fd42d9df34044abffda5721291a5,
+    - PoolingObject: {fileID: 7762079647144639312, guid: fffc4e874fcfa4c419b854f19fa2065d,
         type: 3}
       RatioOfObject: 50
     ThemeObjects: []
@@ -1664,7 +1664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearColorMode: 0
+  clearColorMode: 1
   backgroundColorHDR: {r: 0, g: 0, b: 0, a: 0}
   clearDepth: 1
   volumeLayerMask:

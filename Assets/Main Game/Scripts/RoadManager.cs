@@ -1,5 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+//UNFINISHED SCRIPT
+//TODO: finish this
+
 using UnityEngine;
 
 public class RoadManager : MonoBehaviour

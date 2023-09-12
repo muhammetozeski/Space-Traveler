@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//OBSOLETE SCRIPT. Will be revised later.
+//I made this script 4 years ago before this project...
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

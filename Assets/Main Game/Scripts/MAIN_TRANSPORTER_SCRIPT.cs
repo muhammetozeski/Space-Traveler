@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿//OBSOLETE SCRIPT. Will be revised later.
+//I made this script 4 years ago before this project...
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO: this script is imported from my some old project and need some fixings for efficiency
  public class MAIN_TRANSPORTER_SCRIPT : MonoBehaviour
 {
     /// <summary>
